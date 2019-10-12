@@ -17,11 +17,12 @@ io.on('connection', function (socket) {
     socket.on('send message', function (msg) {
         messages.push({ username, msg });
         console.log(messages);
-        socket.emit('new message', messages);
+        socket.emit('take all messages', messages);
+        socket.broadcast.emit('take all messages', messages);
     });
     
     socket.on('disconnect', function () {
-        console.log('a user disconnected');
+        console.log(username + ' disconnected');
     });    
 });
 

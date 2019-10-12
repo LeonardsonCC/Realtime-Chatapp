@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
 import './styles.css';
 
-import socket from '../../services/socket';
+import io from 'socket.io-client';
 
 interface Message {
-    username?: string,
-    msg?: string
+    username: string,
+    msg: string
 }
 
 interface IState {
     messageText: string,
     messages: Array<Message>,
-    username: string
+    username: string,
+    endpoint: string
 }
 
 interface IProps {}
 
 class App extends Component<IProps, IState> {
+    
     state: IState = {
         messageText: '',
         messages: [],
-        username: ''
+        username: '',
+        endpoint: '127.0.0.1:3000'
     }
+    
+    socket: SocketIOClient.Socket = io(this.state.endpoint);
 
     textInputChanged = (textInput: string) => {
         let newState: IState = {...this.state};
@@ -34,21 +39,27 @@ class App extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        socket.on('new message', (messages: Array<Message>) => {
+        this.socket.on('take all messages', (messages: Array<Message>) => {
+            console.log('teste');
             let newState: IState = {...this.state};
             newState.messages = messages;            
             this.setState(newState);
         });
 
-        socket.on('take your name', (username: string) => {
+        this.socket.on('take your name', (username: string) => {
             this.setState({
                 username: username
             })
         });
     }
 
+    componentWillUnmount() {
+        this.socket.off('take your name');
+        this.socket.off('take all messages');
+    }
+
     clickButton = () => {
-        socket.emit('send message', this.state.messageText);
+        this.socket.emit('send message', this.state.messageText);
 
         this.setState({
             messageText: ''
