@@ -1,9 +1,58 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
-.App { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-.App input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-.App button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-.chat-list { list-style-type: none; margin: 0; padding: 0; }
-.chat-list li { padding: 5px 10px; }
-.chat-list li:nth-child(odd) { background: #eee; }
-.chat-list li:nth-child(even) { background: rgb(145, 145, 145); }
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(224, 224, 224);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 
+ * Caixa de mensagens
+ */
+.App .chat-box {
+    height: 94vh;
+    overflow-y: auto;
+}
+.chat-list .message {
+    display: block;
+}
+.chat-list .message.sent {
+    color: red;
+}
+
+/* 
+ * Input do Chat
+ */
+.App .text-input {
+    background-color: rgb(170, 170, 170);
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.App .text-input input {
+    width: 99%;
+    height: 5vh;
+    padding: 7px 40px 7px 7px;
+    border-radius: 5px;
+    border: unset;
+    outline: none;
+}
+
+.App .text-input button {
+    position: absolute;
+    background: rgba(0, 0, 0, 0);
+    right: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    border: unset;
+    padding: 2px;
+    outline: none;
+}
+
+.App .text-input button img{
+    height: 1.5rem;
+    
+}

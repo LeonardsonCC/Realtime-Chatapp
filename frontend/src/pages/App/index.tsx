@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import './styles.css';
 
-import io from 'socket.io-client';
+import socket from '../../services/socket';
+import sendIcon from '../../assets/send-button.svg';
 
 interface Message {
     username: string,
@@ -12,7 +13,6 @@ interface IState {
     messageText: string,
     messages: Array<Message>,
     username: string,
-    endpoint: string
 }
 
 interface IProps {}
@@ -23,10 +23,7 @@ class App extends Component<IProps, IState> {
         messageText: '',
         messages: [],
         username: '',
-        endpoint: '127.0.0.1:3000'
     }
-    
-    socket: SocketIOClient.Socket = io(this.state.endpoint);
 
     textInputChanged = (textInput: string) => {
         let newState: IState = {...this.state};
@@ -39,14 +36,13 @@ class App extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.socket.on('take all messages', (messages: Array<Message>) => {
-            console.log('teste');
+        socket.on('take all messages', (messages: Array<Message>) => {
             let newState: IState = {...this.state};
             newState.messages = messages;            
             this.setState(newState);
         });
 
-        this.socket.on('take your name', (username: string) => {
+        socket.on('take your name', (username: string) => {
             this.setState({
                 username: username
             })
@@ -54,13 +50,14 @@ class App extends Component<IProps, IState> {
     }
 
     componentWillUnmount() {
-        this.socket.off('take your name');
-        this.socket.off('take all messages');
+        socket.off('take your name');
+        socket.off('take all messages');
     }
 
-    clickButton = () => {
-        this.socket.emit('send message', this.state.messageText);
+    sendMessage = (event: SyntheticEvent) => {
+        event.preventDefault();
 
+        socket.emit('send message', this.state.messageText);
         this.setState({
             messageText: ''
         });
@@ -72,14 +69,16 @@ class App extends Component<IProps, IState> {
                 <div className="chat-box">
                     <ul className="chat-list">
                         {this.state.messages.map((item, index) => {
-                            return <li key={index}>{item.username}: {item.msg}</li>
+                            return <li key={index} className={'message ' + (item.username === this.state.username ? 'sent': 'received')}>{item.username}: {item.msg}</li>
                         })}
                     </ul>
                 </div>
-                <div className="text-input">
+                <form className="text-input" onSubmit={(e) => this.sendMessage(e)}>
                     <input type="text" onChange={(e) => this.textInputChanged(e.target.value)} value={this.state.messageText} />
-                    <button onClick={this.clickButton}>Send</button>
-                </div>
+                    <button type="submit">
+                        <img src={sendIcon} alt="send icon"/>
+                    </button>
+                </form>
             </div>
         )
     }

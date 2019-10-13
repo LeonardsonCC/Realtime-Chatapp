@@ -1,0 +1,20 @@
+{
+  "name": "realtime-chatapp",
+  "version": "1.0.0",
+  "description": "- Just learning about socket.io[https://socket.io].",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd frontend && npm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonardsonCC/Realtime-Chatapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeonardsonCC/Realtime-Chatapp/issues"
+  },
+  "homepage": "https://github.com/LeonardsonCC/Realtime-Chatapp#readme"
+}
