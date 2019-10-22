@@ -1,5 +1,5 @@
 import socketIoClient from 'socket.io-client';
 
-const host = 'leonardson.netlify.com:3000';
+const host = process.env.SERVER;
 
 export default socketIoClient(host) as SocketIOClient.Socket;
