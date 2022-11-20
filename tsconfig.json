@@ -17,10 +17,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "strictNullChecks": false
   },
   "include": [
-    "src"
+    "src",
+    "src/custom.d.ts"
   ]
 }

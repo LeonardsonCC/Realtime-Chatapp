@@ -6,7 +6,7 @@
     flex-direction: column;
 }
 
-/* 
+/*
  * Caixa de mensagens
  */
 .App .chat-box {
@@ -20,7 +20,7 @@
     color: red;
 }
 
-/* 
+/*
  * Input do Chat
  */
 .App .text-input {
@@ -54,5 +54,4 @@
 
 .App .text-input button img{
     height: 1.5rem;
-    
 }
